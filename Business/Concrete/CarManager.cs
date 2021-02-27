@@ -21,7 +21,7 @@ namespace Business.Concrete
 
         public Car GetCarById(int carId)
         {
-            return _carProduct.GetById(carId);
+            return _carProduct.GetById(p=>p.Id == carId);
         }
 
         public void Add(Car car)
@@ -36,6 +36,16 @@ namespace Business.Concrete
         public void Delete(Car car)
         {
             _carProduct.Delete(car);
+        }
+
+        public List<Car> GetCarsByBrand(int Id)
+        {
+            return _carProduct.GetAll(p=>p.BrandId == Id);
+        }
+
+        public List<Car> GetCarsByColor(int Id)
+        {
+            return _carProduct.GetAll(p => p.ColorId == Id);
         }
     }
 }
