@@ -18,7 +18,14 @@ namespace Business.Concrete
 
         public void Add(Brand brand)
         {
-            _brandDal.Add(brand);
+            if (brand.CarBrand.Length >= 2)
+            {
+                _brandDal.Add(brand);
+            }
+            else
+            {
+                Console.WriteLine("Marka ismi minimum 2 karakter olabilir.");
+            }
         }
 
         public void Delete(Brand brand)
@@ -33,12 +40,19 @@ namespace Business.Concrete
 
         public Brand GetBrandById(int Id)
         {
-            return _brandDal.GetById(p=>p.Id == Id);
+            return _brandDal.GetById(p => p.Id == Id);
         }
 
         public void Update(Brand brand)
         {
-            _brandDal.Update(brand);
+            if (brand.CarBrand.Length >= 2)
+            {
+                _brandDal.Update(brand);
+            }
+            else
+            {
+                Console.WriteLine("Marka ismi minimum 2 karakter olabilir.");
+            }
         }
     }
 }
