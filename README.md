@@ -27,3 +27,18 @@ C# Car Rental Console Project
     colorManager.Add(new Color { CarColor = "Gümüş" });
     colorManager.Add(new Color { CarColor = "Siyah" });
 ```
+
+- ##### Add DB Sample Data (Customer, User, Rental)
+
+```csharp
+   CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+   UserManager userManager = new UserManager(new EfUserDal());
+   RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+   var user = new User { FirstName = "Muhammed", LastName = "EMEN", Email = "emen@mail.com", Password = "123456" };
+   userManager.Add(user);
+   var customer = new Customer {UserId = user.Id, CompanyName = "Nexus Corp." };
+   customerManager.Add(customer);
+   var rental = new Rental { CarId = 4, CustomerId=customer.Id, RentedDate = new DateTime(2021, 3, 1), ReturnDate = new DateTime(2021, 3, 5) };
+   rentalManager.Add(rental);
+```
