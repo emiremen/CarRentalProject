@@ -12,5 +12,6 @@ namespace Business.Constants
         public static string Listed = "Listeleme işlemi başarılı";
         public static string PriceError = "Hatalı fiyat girildi";
         public static string MaintenanceError = "Sistem bakımda";
+        public static string Delivered = "Teslim Edildi";
     }
 }

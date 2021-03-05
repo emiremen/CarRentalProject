@@ -11,8 +11,34 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarManager carManager = new CarManager(new EfCarProductDal());
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            UserManager userManager = new UserManager(new EfUserDal());
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
 
+            //var user = new User { FirstName = "Muhammed", LastName = "EMEN", Email = "emen@mail.com", Password = "123456" };
+            //userManager.Add(user);
+            //var customer = new Customer {UserId = user.Id, CompanyName = "Nexus Corp." };
+            //customerManager.Add(customer);
+            //var rental = new Rental { CarId = 4, CustomerId=customer.Id, RentedDate = new DateTime(2021, 3, 1), ReturnDate = new DateTime(2021, 3, 5) };
+            //rentalManager.Add(rental);
+
+            CarManager carManager = new CarManager(new EfCarProductDal());
+            //CarManagerTest(carManager);
+
+            Console.WriteLine("------------------------- Rentals --------------------------");
+            if (rentalManager.GetRentedCarDetail().Success)
+            {
+                foreach (var item in rentalManager.GetRentedCarDetail().Data)
+                {
+                    Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5}", item.CustomerName, item.CompanyName, item.CarBrand,item.CarColor,item.RentedDate,item.ReturnDate);
+                }
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void CarManagerTest(CarManager carManager)
+        {
             Console.WriteLine("------------------------- Cars --------------------------");
             if (carManager.GetCarDetails().Success)
             {
@@ -25,8 +51,6 @@ namespace ConsoleUI
             {
                 Console.WriteLine(carManager.GetCarDetails().Message);
             }
-
-            Console.ReadKey();
         }
     }
 }
