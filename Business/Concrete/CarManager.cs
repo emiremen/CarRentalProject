@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -19,7 +21,7 @@ namespace Business.Concrete
         }
         public IDataResult<List<Car>> GetAll()
         {
-            if (DateTime.Now.Hour == 23)
+            if (DateTime.Now.Hour == 22)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceError);
             }
@@ -31,22 +33,16 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carProduct.GetById(p => p.Id == carId),Messages.Listed);
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.DailyPrice <= 0)
-            {
-                new ErrorResult(Messages.PriceError);
-            }
             _carProduct.Add(car);
             return new SuccessResult("Eklendi");
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
-            if (car.DailyPrice <= 0)
-            {
-                new ErrorResult(Messages.PriceError);
-            }
             _carProduct.Update(car);
             return new SuccessResult("Güncellendi");
         }
