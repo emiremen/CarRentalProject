@@ -23,10 +23,11 @@ namespace DataAccess.Concrete.EntityFramework
                              join c in dBContext.Colors on car.ColorId equals c.Id
                              select new RentedCarDetailDto
                              {
-                                 CustomerName = u.FirstName + " " + u.LastName,
+                                 Customer = u.FirstName + " " + u.LastName,
                                  CompanyName = cust.CompanyName,
                                  CarBrand = b.CarBrand,
                                  CarColor = c.CarColor,
+                                 CarModelYear = car.ModelYear,
                                  RentedDate = r.RentedDate,
                                  ReturnDate = r.ReturnDate
                              };

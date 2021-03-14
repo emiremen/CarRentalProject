@@ -32,6 +32,7 @@ namespace WebAPI
             services.AddControllers();
             //services.AddSingleton<ICarService, CarManager>();
             //services.AddSingleton<ICarProductDal, EfCarProductDal>();
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,6 +42,8 @@ namespace WebAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseCors(builder=>builder.WithOrigins("https://localhost:44306/api/cars/getcardetails").AllowAnyHeader().AllowAnyOrigin());
 
             app.UseHttpsRedirection();
 

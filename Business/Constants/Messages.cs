@@ -13,5 +13,6 @@ namespace Business.Constants
         public static string PriceError = "Hatalı fiyat girildi";
         public static string MaintenanceError = "Sistem bakımda";
         public static string Delivered = "Teslim Edildi";
+        public static string CarImageLimitExceded = "Bir araba için 5'ten fazla resim eklenemez";
     }
 }

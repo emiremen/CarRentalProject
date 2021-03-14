@@ -11,51 +11,53 @@ namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CarsController : ControllerBase
+    public class CarImagesController : ControllerBase
     {
-        ICarService _carService;
+        ICarImageService _carImageService;
 
-        public CarsController(ICarService carService)
+        public CarImagesController(ICarImageService carImageService)
         {
-            _carService = carService;
+            _carImageService = carImageService;
         }
 
-        [HttpGet("getall")] //localhost:44306/api/cars/getall
+        [HttpPost("add")]
+
+        public IActionResult Add([FromForm]CarImage carImage, [FromForm]IFormFile file)
+        {
+            var result = _carImageService.Add(carImage,file);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+        [HttpPost("update")]
+
+        public IActionResult Update([FromForm]int id, [FromForm]IFormFile file)
+        {
+            var result = _carImageService.Update(id,file);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("delete")]
+        public IActionResult Delete(CarImage carImage)
+        {
+            var result = _carImageService.Delete(carImage);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _carService.GetAll();
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-
-        [HttpGet("getcardetails")] //localhost:44306/api/cars/getall
-        public IActionResult GetCarDetails()
-        {
-            var result = _carService.GetCarDetails();
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        } 
-
-        [HttpGet("getbyid")] //localhost:44306/api/cars/getbyid?id=4
-        public IActionResult GetById(int id)
-        {
-            var result = _carService.GetCarById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-            return BadRequest(result);
-        }
-        [HttpPost("addcar")] //localhost:44306/api/cars/addcar
-        public IActionResult AddCar(Car car)
-        {
-            var result = _carService.Add(car);
+            var result = _carImageService.GetAllImages();
             if (result.Success)
             {
                 return Ok(result);
