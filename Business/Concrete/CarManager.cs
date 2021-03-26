@@ -21,10 +21,6 @@ namespace Business.Concrete
         }
         public IDataResult<List<Car>> GetAll()
         {
-            if (DateTime.Now.Hour == 21)
-            {
-                return new ErrorDataResult<List<Car>>(Messages.MaintenanceError);
-            }
             return new SuccessDataResult<List<Car>>(_carProduct.GetAll(),Messages.Listed);
         }
 
@@ -34,10 +30,10 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
-        public IResult Add(Car car)
+        public IDataResult<Car> Add(Car car)
         {
             _carProduct.Add(car);
-            return new SuccessResult("Eklendi");
+            return new SuccessDataResult<Car>(car, "Eklendi");
         }
 
         [ValidationAspect(typeof(CarValidator))]
@@ -64,11 +60,27 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            if (DateTime.Now.Hour == 21)
-            {
-                return new ErrorDataResult<List<CarDetailDto>>(Messages.MaintenanceError);
-            }
             return new SuccessDataResult<List<CarDetailDto>>(_carProduct.GetCarDetails(),Messages.Listed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandName(string brandName)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carProduct.GetCarDetails(p=>p.BrandName == brandName), Messages.Listed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorName(string colorName)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carProduct.GetCarDetails(p=>p.ColorName == colorName), Messages.Listed);
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByFiltered(string brandName, string colorName)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carProduct.GetCarDetails(p=>p.ColorName == colorName && p.BrandName == brandName), Messages.Listed);
+        }
+
+        public IDataResult<CarDetailDto> GetCarDetailsById(int carId)
+        {
+             return new SuccessDataResult<CarDetailDto>(_carProduct.GetCarDetails(p => p.CarId == carId)[0], Messages.Listed);
         }
     }
 }

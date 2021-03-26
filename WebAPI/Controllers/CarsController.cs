@@ -40,18 +40,55 @@ namespace WebAPI.Controllers
                 return Ok(result);
             }
             return BadRequest(result);
-        } 
+        }
 
-        [HttpGet("getbyid")] //localhost:44306/api/cars/getbyid?id=4
-        public IActionResult GetById(int id)
+        [HttpGet("getcardetailsbyid")] //localhost:44306/api/cars/getcardetailsbyid?carId=4
+        public IActionResult GetCarDetailsById(int carId)
         {
-            var result = _carService.GetCarById(id);
+            var result = _carService.GetCarDetailsById(carId);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
+        
+
+        [HttpGet("getcardetailsbybrandname")] //localhost:44306/api/cars/getcardetailsbybrandname?brandName=BMW
+        public IActionResult GetCarDetailsByBrandName(string brandName)
+        {
+            var result = _carService.GetCarDetailsByBrandName(brandName);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("getcardetailsbycolorname")] //localhost:44306/api/cars/getcardetailsbycolorname?colorName=Beyaz
+        public IActionResult GetCarDetailsByColorName(string colorName)
+        {
+            var result = _carService.GetCarDetailsByColorName(colorName);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+
+
+        [HttpGet("getcardetailsbyfiltered")] //localhost:44306/api/cars/getcardetailsbyfiltered??brandName=BMW&colorName=Beyaz
+        public IActionResult GetCarDetailsByFiltered(string brandName, string colorName)
+        {
+            var result = _carService.GetCarDetailsByFiltered(brandName, colorName);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("addcar")] //localhost:44306/api/cars/addcar
         public IActionResult AddCar(Car car)
         {

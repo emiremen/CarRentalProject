@@ -8,32 +8,36 @@ namespace Core.Utilities.Helpers
 {
     public static class FileHelper
     {
-        public static string Add(IFormFile file)
+        public static string[] Add(IFormFile[] files)
         {
-            var extension = Path.GetExtension(file.FileName);
-            var newPath = Directory.GetCurrentDirectory() + @"\wwwroot\Images\" + Guid.NewGuid().ToString("N") + extension;
-            if (file != null)
+            string[] dbPath = new string[files.Length];
+            if (files.Length > 0)
             {
-                using (FileStream stream = File.Create(newPath))
+                for (int i = 0; i < files.Length; i++)
                 {
-                    file.CopyTo(stream);
-                    stream.Flush();
+                    string extension = Path.GetExtension(files[i].FileName);
+                    dbPath[i] = @"Images/" + Guid.NewGuid().ToString("N") + extension;
+                    string directoryPath = Directory.GetCurrentDirectory() + @"\wwwroot\" + dbPath[i];
+                    using (FileStream stream = File.Create(directoryPath))
+                    {
+                        files[i].CopyTo(stream);
+                        stream.Flush();
+                    }
                 }
-                return newPath;
+                return dbPath;
             }
-            else
-            {
-                throw new Exception("Boş dosya gönderilemez.");
-            }
+            throw new Exception("Boş dosya gönderilemez.");
         }
+
         public static string Update(IFormFile file, string existingFilePath)
         {
             string replacedFile;
-            var extension = Path.GetExtension(file.FileName);
-            var newPath = Directory.GetCurrentDirectory() + @"\wwwroot\Images\" + Guid.NewGuid().ToString("N") + extension;
+            string extension = Path.GetExtension(file.FileName);
+            string dbPath = @"Images/" + Guid.NewGuid().ToString("N") + extension;
+            string directoryPath = Directory.GetCurrentDirectory() + @"\wwwroot\" + dbPath;
             if (file != null)
             {
-                using (FileStream stream = File.Create(newPath))
+                using (FileStream stream = File.Create(directoryPath))
                 {
                     File.Delete(existingFilePath);
                     file.CopyTo(stream);
@@ -42,10 +46,8 @@ namespace Core.Utilities.Helpers
                 }
                 return replacedFile;
             }
-            else
-            {
-                throw new Exception("Boş dosya gönderilemez.");
-            }
+            throw new Exception("Boş dosya gönderilemez.");
         }
     }
 }
+

@@ -30,7 +30,7 @@ namespace ConsoleUI
             {
                 foreach (var item in rentalManager.GetRentedCarDetail().Data)
                 {
-                    Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5}", item.CustomerName, item.CompanyName, item.CarBrand,item.CarColor,item.RentedDate,item.ReturnDate);
+                    Console.WriteLine("{0} | {1} | {2} | {3} | {4} | {5}", item.Customer, item.CompanyName, item.CarBrand,item.CarColor,item.RentedDate,item.ReturnDate);
                 }
             }
 

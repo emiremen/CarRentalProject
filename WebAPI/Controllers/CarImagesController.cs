@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class CarImagesController : ControllerBase
@@ -21,18 +22,17 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-
-        public IActionResult Add([FromForm]CarImage carImage, [FromForm]IFormFile file)
+        public IActionResult Add([FromForm]int toSavedCarId, [FromForm]IFormFile[] file)
         {
-            var result = _carImageService.Add(carImage,file);
+            var result = _carImageService.Add(toSavedCarId,file);
             if (result.Success)
             {
                 return Ok(result);
             }
             return BadRequest(result);
         }
-        [HttpPost("update")]
 
+        [HttpPost("update")]
         public IActionResult Update([FromForm]int id, [FromForm]IFormFile file)
         {
             var result = _carImageService.Update(id,file);

@@ -21,17 +21,24 @@ namespace Business.Concrete
         {
             _carImageDal = carImageDal;
         }
-        public IResult Add(CarImage carImage,IFormFile file)
+        public IResult Add(int toSavedCarId, IFormFile[] file)
         {
-            IResult result = BusinessRules.Run(CheckImageLimit(carImage.CarId));
+            IResult result = BusinessRules.Run(CheckImageLimit(toSavedCarId));
             if (result != null)
             {
                 return result;
             }
 
-            carImage.ImagePath = FileHelper.Add(file);
-            carImage.Date = DateTime.Now;
-            _carImageDal.Add(carImage);
+            var files = FileHelper.Add(file);
+            foreach (var item in files)
+            {
+                CarImage carImage = new CarImage();
+                carImage.CarId = toSavedCarId;
+                carImage.ImagePath = item;
+                carImage.Date = DateTime.Now;
+                _carImageDal.Add(carImage);
+            }
+
             return new SuccessResult();
         }
 
@@ -64,7 +71,7 @@ namespace Business.Concrete
         //################################# Rules
         private IResult CheckImageLimit(int carId)
         {
-            var result = _carImageDal.GetAll(p=>p.CarId == carId);
+            var result = _carImageDal.GetAll(p => p.CarId == carId);
             if (result.Count > 5)
             {
                 return new ErrorResult(Messages.CarImageLimitExceded);
