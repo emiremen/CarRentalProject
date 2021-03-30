@@ -10,6 +10,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Caching;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 
 namespace Business.Concrete
 {
@@ -20,25 +23,32 @@ namespace Business.Concrete
         {
             _carProduct = carProduct;
         }
+
+        [PerformanceAspect(5)] //Metodun Çalışması 5 saniyeyi geçerse uyar
+        [CacheAspect] //key, value
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carProduct.GetAll(),Messages.Listed);
         }
 
+        [CacheAspect]
         public IDataResult<Car> GetCarById(int carId)
         {
             return new SuccessDataResult<Car>(_carProduct.GetById(p => p.Id == carId),Messages.Listed);
         }
 
         //Claim 
+        [TransactionScopeAspect]
         [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("IProductService.Get")]
         public IDataResult<Car> Add(Car car)
         {
             _carProduct.Add(car);
             return new SuccessDataResult<Car>(car, "Eklendi");
         }
 
+        [CacheRemoveAspect("IProductService.Get")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
@@ -84,6 +94,19 @@ namespace Business.Concrete
         public IDataResult<CarDetailDto> GetCarDetailsById(int carId)
         {
              return new SuccessDataResult<CarDetailDto>(_carProduct.GetCarDetails(p => p.CarId == carId)[0], Messages.Listed);
+        }
+
+        public IResult AddTransactionTest(Car car)
+        {
+            Add(car);
+
+            if (car.DailyPrice < 10)
+            {
+                throw new Exception("Hata");
+            }
+
+            Add(car);
+            return null;
         }
     }
 }
