@@ -9,6 +9,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -29,6 +30,8 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carProduct.GetById(p => p.Id == carId),Messages.Listed);
         }
 
+        //Claim 
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IDataResult<Car> Add(Car car)
         {

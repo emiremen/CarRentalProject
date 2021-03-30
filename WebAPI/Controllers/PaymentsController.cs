@@ -1,29 +1,29 @@
-﻿using Business.Abstract;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
 using Entities.Concrete;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ColorsController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
-        IColorService _colorService;
+        IPaymentService _paymentService;
 
-        public ColorsController(IColorService colorService)
+        public PaymentsController(IPaymentService paymentService)
         {
-            _colorService = colorService;
+            _paymentService = paymentService;
         }
 
         [HttpGet("getall")]
         public IActionResult GetAll()
         {
-            var result = _colorService.GetAllColors();
+            var result = _paymentService.GetAllPayments();
             if (result.Success)
             {
                 return Ok(result);
@@ -32,9 +32,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Color color)
+        public IActionResult Add(Payment payment)
         {
-            var result = _colorService.Add(color);
+            var result = _paymentService.Add(payment);
             if (result.Success)
             {
                 return Ok(result);

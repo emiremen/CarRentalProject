@@ -31,8 +31,8 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("add")]
-        public IActionResult Add([FromForm]Brand brand)
+        [HttpPost("add")]
+        public IActionResult Add(Brand brand)
         {
             var result = _brandService.Add(brand);
             if (result.Success)

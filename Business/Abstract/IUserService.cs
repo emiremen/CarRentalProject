@@ -3,6 +3,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Core.Entities.Concrete;
 
 namespace Business.Abstract
 {
@@ -13,5 +14,7 @@ namespace Business.Abstract
         IResult Delete(User user);
         IDataResult<List<User>> GetAllUsers();
         IDataResult<User> GetUserById(int userId);
+        IDataResult<List<OperationClaim>> GetClaims(User user);
+        IDataResult<User> GetByMail(string email);
     }
 }

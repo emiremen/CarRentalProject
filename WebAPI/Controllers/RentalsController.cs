@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Entities.Concrete;
 
 namespace WebAPI.Controllers
 {
@@ -22,6 +23,17 @@ namespace WebAPI.Controllers
         public IActionResult GetRentals()
         {
             var result = _rentalService.GetRentedCarDetail();
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpGet("add")] //localhost:44306/api/cars/getall
+        public IActionResult AddRental(Rental rental)
+        {
+            var result = _rentalService.Add(rental);
             if (result.Success)
             {
                 return Ok(result);
