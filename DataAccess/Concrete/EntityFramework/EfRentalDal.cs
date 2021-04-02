@@ -6,11 +6,21 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace DataAccess.Concrete.EntityFramework
 {
     public class EfRentalDal : EfEntityRepositoryBase<Rental, MyDBContext>, IRentalDal
     {
+        public Rental GetRentalByCarIdWithGreatestReturnDay(Expression<Func<Rental, bool>> filter)
+        {
+            using (MyDBContext dBContext = new MyDBContext())
+            {
+                return dBContext.Set<Rental>().Where(filter).OrderByDescending(filter).FirstOrDefault();
+            }
+        }
+    
+
         public List<RentedCarDetailDto> GetRentedCarDetails()
         {
             using (MyDBContext dBContext = new MyDBContext())

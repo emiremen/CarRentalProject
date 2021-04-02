@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Transaction;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -18,12 +19,14 @@ namespace Business.Concrete
             _paymentDal = paymentDal;
         }
 
+        [TransactionScopeAspect]
         public IResult Add(Payment payment)
         {
             _paymentDal.Add(payment);
             return new SuccessResult(Messages.Added);
         }
 
+        [TransactionScopeAspect]
         public IResult Delete(Payment payment)
         {
             _paymentDal.Delete(payment);
@@ -40,6 +43,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Payment>(_paymentDal.GetById(p => p.CustomerId == customerId));
         }
 
+        [TransactionScopeAspect]
         public IResult Update(Payment payment)
         {
             _paymentDal.Update(payment);

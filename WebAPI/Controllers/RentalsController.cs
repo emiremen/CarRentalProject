@@ -30,7 +30,18 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
-        [HttpGet("add")] //localhost:44306/api/cars/getall
+        [HttpGet("getbycarid")] //localhost:44306/api/cars/getall
+        public IActionResult GetRentalById(int carId)
+        {
+            var result = _rentalService.GetRentalByCarId(carId);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("add")] //localhost:44306/api/cars/getall
         public IActionResult AddRental(Rental rental)
         {
             var result = _rentalService.Add(rental);

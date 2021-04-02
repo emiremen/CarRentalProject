@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Business.Abstract;
 using Business.Constants;
+using Core.Aspects.Autofac.Transaction;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -40,9 +41,21 @@ namespace Business.Concrete
             return new SuccessDataResult<Banking>(_bankingDal.GetById(b => b.UserId == userId), Messages.Listed);
         }
 
-        public IResult Update(Banking banking)
+        public IDataResult<Banking> GetByFilter(Banking banking)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Banking>(_bankingDal.GetById(b => 
+                b.NameOnCard == banking.NameOnCard
+                && b.CardNumber == banking.CardNumber
+                && b.ExpiryDate == banking.ExpiryDate
+                && b.Cvc == banking.Cvc
+                ), Messages.Listed);
+        }
+
+        [TransactionScopeAspect]
+        public IResult Update(Banking banking)
+        {   
+            _bankingDal.Update(banking);
+            return new SuccessResult(Messages.Updated);
         }
     }
 }

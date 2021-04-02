@@ -13,5 +13,6 @@ namespace Business.Abstract
         IResult Delete(Banking banking);
         IDataResult<Banking> GetBankingByUserId(int userId);
         IDataResult<List<Banking>> GetAllBankings();
+        IDataResult<Banking> GetByFilter(Banking banking);
     }
 }

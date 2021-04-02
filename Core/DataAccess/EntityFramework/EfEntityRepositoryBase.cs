@@ -44,7 +44,7 @@ namespace Core.DataAccess.EntityFramework
         {
             using (TContext dBContext = new TContext())
             {
-                return dBContext.Set<TEntity>().SingleOrDefault(filter);
+                return dBContext.Set<TEntity>().SingleOrDefault(filter); //First or default yap iki değer gidince hata veriyor
             }
         }
 

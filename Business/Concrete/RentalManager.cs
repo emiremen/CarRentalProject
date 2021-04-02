@@ -18,10 +18,10 @@ namespace Business.Concrete
             _rentalDal = rentalDal;
         }
 
-        public IResult Add(Rental rental)
+        public IDataResult<Rental> Add(Rental rental)
         {
             _rentalDal.Add(rental);
-            return new SuccessResult(Messages.Delivered);
+            return new SuccessDataResult<Rental>(rental, Messages.Delivered);
         }
 
         public IResult Delete(Rental rental)
@@ -38,6 +38,11 @@ namespace Business.Concrete
         public IDataResult<Rental> GetRentalById(int rentalId)
         {
             return new SuccessDataResult<Rental>(_rentalDal.GetById(p=>p.Id == rentalId), Messages.Listed);
+        }
+
+        public IDataResult<Rental> GetRentalByCarId(int carId)
+        {
+            return new SuccessDataResult<Rental>(_rentalDal.GetRentalByCarIdWithGreatestReturnDay(p=>p.CarId == carId), Messages.Listed);
         }
 
         public IDataResult<List<RentedCarDetailDto>> GetRentedCarDetail()

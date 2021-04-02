@@ -31,10 +31,32 @@ namespace WebAPI.Controllers
             return BadRequest(result);
         }
 
+        [HttpPost("getbyfilter")]
+        public IActionResult GetByFilter(Banking banking)
+        {
+            var result = _bankingService.GetByFilter(banking);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
         [HttpPost("add")]
         public IActionResult Add(Banking banking)
         {
             var result = _bankingService.Add(banking);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(Banking banking)
+        {
+            var result = _bankingService.Update(banking);
             if (result.Success)
             {
                 return Ok(result);
