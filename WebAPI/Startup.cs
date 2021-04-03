@@ -71,7 +71,9 @@ namespace WebAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors(builder=>builder.WithOrigins("https://localhost:44306/api/cars/getcardetails").AllowAnyHeader().AllowAnyOrigin());
+            app.ConfigureCustomExceptionMiddleware();
+
+            app.UseCors(builder=>builder.WithOrigins("https://localhost:44306/").AllowAnyHeader().AllowAnyOrigin());
 
             app.UseHttpsRedirection();
 
