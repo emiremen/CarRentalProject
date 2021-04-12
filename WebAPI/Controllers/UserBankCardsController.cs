@@ -1,29 +1,29 @@
-﻿using Business.Abstract;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Business.Abstract;
 using Entities.Concrete;
 
 namespace WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BrandsController : ControllerBase
+    public class UserBankCardsController : ControllerBase
     {
-        IBrandService _brandService;
+        IUserBankCardService _userBankCardService;
 
-        public BrandsController(IBrandService brandService)
+        public UserBankCardsController(IUserBankCardService userBankCardService)
         {
-            _brandService = brandService;
+            _userBankCardService = userBankCardService;
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll()
+        [HttpGet("get")]
+        public IActionResult GetUserBankCardByUserId(int userId)
         {
-            var result = _brandService.GetAllBrands();
+            var result = _userBankCardService.GetUserBankCardsByUserId(userId);
             if (result.Success)
             {
                 return Ok(result);
@@ -32,9 +32,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("add")]
-        public IActionResult Add(Brand brand)
+        public IActionResult Add(UserBankCard userBankCardService)
         {
-            var result = _brandService.Add(brand);
+            var result = _userBankCardService.Add(userBankCardService);
             if (result.Success)
             {
                 return Ok(result);
@@ -43,9 +43,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("update")]
-        public IActionResult Update(Brand brand)
+        public IActionResult Update(UserBankCard userBankCardService)
         {
-            var result = _brandService.Update(brand);
+            var result = _userBankCardService.Update(userBankCardService);
             if (result.Success)
             {
                 return Ok(result);
@@ -54,9 +54,9 @@ namespace WebAPI.Controllers
         }
 
         [HttpPost("delete")]
-        public IActionResult Delete(Brand brand)
+        public IActionResult Delete(UserBankCard userBankCardService)
         {
-            var result = _brandService.Delete(brand);
+            var result = _userBankCardService.Delete(userBankCardService);
             if (result.Success)
             {
                 return Ok(result);

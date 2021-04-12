@@ -29,24 +29,38 @@ namespace Core.Utilities.Helpers
             throw new Exception("Boş dosya gönderilemez.");
         }
 
-        public static string Update(IFormFile file, string existingFilePath)
+        public static string[] Update(IFormFile[] files, string[] existingFilePath)
         {
-            string replacedFile;
-            string extension = Path.GetExtension(file.FileName);
-            string dbPath = @"Images/" + Guid.NewGuid().ToString("N") + extension;
-            string directoryPath = Directory.GetCurrentDirectory() + @"\wwwroot\" + dbPath;
-            if (file != null)
+            string[] replacedFiles = new string[files.Length]; ;
+            string[] dbPath = new string[files.Length];
+            if (files.Length > 0)
             {
-                using (FileStream stream = File.Create(directoryPath))
+                for (int i = 0; i < files.Length; i++)
                 {
-                    File.Delete(existingFilePath);
-                    file.CopyTo(stream);
-                    replacedFile = stream.Name;
-                    stream.Flush();
+                    string extension = Path.GetExtension(files[i].FileName);
+                    dbPath[i] = @"Images/" + Guid.NewGuid().ToString("N") + extension;
+                    string directoryPath = Directory.GetCurrentDirectory() + @"\wwwroot\" + dbPath[i];
+                    using (FileStream stream = File.Create(directoryPath))
+                    {
+                        File.Delete(existingFilePath[i]);
+                        files[i].CopyTo(stream);
+                        replacedFiles[i] = stream.Name;
+                        stream.Flush();
+                    }
                 }
-                return replacedFile;
+                return replacedFiles;
             }
             throw new Exception("Boş dosya gönderilemez.");
+        }
+
+        public static void Delete(string existingFilePath)
+        {
+            string directoryPath = Directory.GetCurrentDirectory() + @"\wwwroot\" + existingFilePath;
+            using (FileStream stream = File.Create(directoryPath))
+            {
+                File.Delete(existingFilePath);
+                stream.Flush();
+            }
         }
     }
 }

@@ -26,9 +26,11 @@ namespace DataAccess.Concrete.EntityFramework
                                  ColorName = c.CarColor,
                                  ModelYear = car.ModelYear,
                                  //CarImage = dBContext.CarImages.Where(c => c.CarId == car.Id).Select(i => i.ImagePath).ToArray(),
-                                 CarImage =  (from carImage in dBContext.CarImages where carImage.CarId == car.Id select carImage.ImagePath).ToList(),
+                                 //CarImage = (from carImage in dBContext.CarImages where carImage.CarId == car.Id select carImage.ImagePath).ToList(), (sadece imagepath)
+                                 CarImage =  (from carImage in dBContext.CarImages where carImage.CarId == car.Id select carImage).ToList(),
                                  DailyPrice = car.DailyPrice,
-                                 Description = car.Description
+                                 Description = car.Description,
+                                 CarFindex = car.CarFindex
                              };
 
                 if (filter == null)

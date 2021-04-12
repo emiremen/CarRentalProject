@@ -38,22 +38,31 @@ namespace Business.Concrete
 
         public IDataResult<Banking> GetBankingByUserId(int userId)
         {
-            return new SuccessDataResult<Banking>(_bankingDal.GetById(b => b.UserId == userId), Messages.Listed);
+            var result = _bankingDal.GetById(b => b.UserId == userId);
+            if (result.NameOnCard != "" || result.CardNumber != null)
+            {
+                return new SuccessDataResult<Banking>(result, Messages.Listed);
+            }
+            return new ErrorDataResult<Banking>(result, Messages.Listed);
         }
 
         public IDataResult<Banking> GetByFilter(Banking banking)
         {
-            return new SuccessDataResult<Banking>(_bankingDal.GetById(b => 
+            var result = _bankingDal.GetById(b =>
                 b.NameOnCard == banking.NameOnCard
                 && b.CardNumber == banking.CardNumber
                 && b.ExpiryDate == banking.ExpiryDate
-                && b.Cvc == banking.Cvc
-                ), Messages.Listed);
+                && b.Cvc == banking.Cvc);
+            if (result != null)
+            {
+                return new SuccessDataResult<Banking>(result, Messages.Listed);
+            }
+            return new ErrorDataResult<Banking>(Messages.Listed);
         }
 
         [TransactionScopeAspect]
         public IResult Update(Banking banking)
-        {   
+        {
             _bankingDal.Update(banking);
             return new SuccessResult(Messages.Updated);
         }

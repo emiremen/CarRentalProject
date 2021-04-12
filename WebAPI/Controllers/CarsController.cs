@@ -99,5 +99,18 @@ namespace WebAPI.Controllers
             }
             return BadRequest(result);
         }
+
+
+
+        [HttpPost("update")] //localhost:44306/api/cars/update
+        public IActionResult UpdateCar(Car car)
+        {
+            var result = _carService.Update(car);
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+            return BadRequest(result);
+        }
     }
 }
