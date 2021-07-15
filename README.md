@@ -1,7 +1,7 @@
 # CarRentalProject
 ### About
 
-This Frontend project is coded with .Net Core/C# camp with the training given by Engin Demiroğ.
+This Backend project is coded with .Net Core/C# camp with the training given by Engin Demiroğ.
 To access the Frontend project go to here --> [Frontend](https://github.com/emiremen/car-rental-frontend).
 
 #### Technologies Used
